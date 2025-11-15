@@ -43,22 +43,62 @@ kmp-spreadsheet/
 ## ビルド方法
 
 ### 前提条件
-- JDK 17以上
-- Kotlin 2.0.0以上
+- **JDK 17以上** (推奨: JDK 21)
+- **Gradle 8.5以上** (推奨: 8.14.3)
+- **インターネット接続** (初回ビルド時に依存関係をダウンロード)
 
-### ブラウザアプリをビルド
+### セットアップ
 
+1. リポジトリをクローン
+```bash
+git clone <repository-url>
+cd kmp-spreadsheet
+```
+
+2. Gradle Wrapperに実行権限を付与
+```bash
+chmod +x gradlew
+```
+
+### ビルドコマンド
+
+#### 開発サーバーで実行（推奨）
 ```bash
 ./gradlew :webApp:wasmJsBrowserDevelopmentRun
 ```
 
-または開発サーバーなしでビルドのみ：
+これにより、開発サーバーが起動し、ブラウザで自動的に開きます（通常は http://localhost:8080）。
 
+#### 本番ビルド
 ```bash
 ./gradlew :webApp:wasmJsBrowserDistribution
 ```
 
-ビルド成果物は `webApp/build/dist/wasmJs/productionExecutable/` に生成されます。
+ビルド成果物は以下に生成されます：
+- `webApp/build/dist/wasmJs/productionExecutable/`
+
+生成されたファイルを任意のWebサーバーでホスティングできます。
+
+### トラブルシューティング
+
+#### プラグインが見つからないエラー
+```
+Plugin [id: 'org.jetbrains.kotlin.multiplatform'] was not found
+```
+
+**解決方法**: インターネット接続を確認してください。初回ビルド時はGradleがMavenリポジトリから依存関係をダウンロードします。
+
+#### Gradle Daemonのエラー
+```bash
+./gradlew --stop  # Daemonを停止
+./gradlew clean   # クリーンビルド
+```
+
+#### キャッシュをクリア
+```bash
+rm -rf ~/.gradle/caches
+./gradlew clean build
+```
 
 ## 使い方
 
