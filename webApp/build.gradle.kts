@@ -7,29 +7,28 @@ plugins {
 kotlin {
     @OptIn(org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "spreadsheet"
+        moduleName = "webApp"
         browser {
             commonWebpackConfig {
-                outputFileName = "spreadsheet.js"
+                outputFileName = "webApp.js"
             }
         }
         binaries.executable()
     }
 
     sourceSets {
-        val commonMain by getting {
+        val wasmJsMain by getting {
             dependencies {
+                implementation(project(":shared"))
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.ui)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
             }
         }
     }
+}
+
+compose.experimental {
+    web.application {}
 }

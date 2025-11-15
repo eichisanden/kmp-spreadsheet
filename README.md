@@ -33,31 +33,32 @@ kmp-spreadsheet/
 │                   ├── data/model/          # データモデル
 │                   ├── ui/components/       # UIコンポーネント
 │                   └── ui/viewmodel/        # ViewModel
-└── androidApp/            # Androidアプリ
-    └── src/main/
-        └── kotlin/com/example/spreadsheet/android/
+└── webApp/                # Wasmブラウザアプリ
+    └── src/wasmJsMain/
+        ├── kotlin/
+        └── resources/
+            └── index.html
 ```
 
 ## ビルド方法
 
 ### 前提条件
 - JDK 17以上
-- Android Studio Hedgehog (2023.1.1) 以上
-- Kotlin 1.9.20
+- Kotlin 2.0.0以上
 
-### Android アプリをビルド
-
-```bash
-./gradlew :androidApp:assembleDebug
-```
-
-### Android アプリを実行
+### ブラウザアプリをビルド
 
 ```bash
-./gradlew :androidApp:installDebug
+./gradlew :webApp:wasmJsBrowserDevelopmentRun
 ```
 
-または Android Studio で `androidApp` をビルドして実行してください。
+または開発サーバーなしでビルドのみ：
+
+```bash
+./gradlew :webApp:wasmJsBrowserDistribution
+```
+
+ビルド成果物は `webApp/build/dist/wasmJs/productionExecutable/` に生成されます。
 
 ## 使い方
 
@@ -80,7 +81,8 @@ kmp-spreadsheet/
 ## 技術スタック
 
 - **Kotlin Multiplatform**: クロスプラットフォーム対応
-- **Jetpack Compose**: UIフレームワーク
+- **Kotlin/Wasm**: WebAssemblyでブラウザ上で動作
+- **Compose Multiplatform**: UIフレームワーク
 - **StateFlow**: 状態管理
 - **Material3**: デザインシステム
 
